@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `GoUdb`.`vehiculos` (
   `placa` VARCHAR(10) NOT NULL,
   `codigo_asoc` INT NOT NULL,
   `tipo_vehiculo` VARCHAR(45) NOT NULL,
-  `estado_vehiculo` TINYINT(1) NOT NULL,
+  `estado_vehiculo` VARCHAR(45) NOT NULL,
   `modelo` INT(5) NOT NULL,
   `marca` VARCHAR(45) NOT NULL,
   `color` VARCHAR(45) NOT NULL,
@@ -347,7 +347,7 @@ CREATE TABLE IF NOT EXISTS `GoUdb`.`log_vehiculos` (
   `placa` VARCHAR(10) NOT NULL,
   `codigo_asoc` INT NOT NULL,
   `tipo_vehiculo` VARCHAR(45) NOT NULL,
-  `estado_vehiculo` TINYINT(1) NOT NULL,
+  `estado_vehiculo` VARCHAR(45) NOT NULL,
   `modelo` INT(5) NOT NULL,
   `marca` VARCHAR(45) NOT NULL,
   `color` VARCHAR(45) NOT NULL,
@@ -460,13 +460,13 @@ CREATE DEFINER = CURRENT_USER TRIGGER `GoUdb`.`usuarios_AFTER_INSERT` AFTER INSE
 USE `GoUdb`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `GoUdb`.`usuarios_AFTER_UPDATE` AFTER UPDATE ON `usuarios` FOR EACH ROW
     BEGIN
-    INSERT INTO `log_usuarios` (tipo_registro, fecha, id_usuario, tipo_documento, nombre, apellido, celular, correo_elec, foto, fecha_nac, contrasena, foto_carnet) VALUES ("Modificación", now(), NEW.id_usuario, NEW.tipo_documento, NEW.nombre, NEW.apellido, NEW.celular, NEW.correo_elec, NEW.foto, NEW.fecha_nac, NEW.contrasena, NEW.foto_carnet);
+    INSERT INTO `log_usuarios` (tipo_registro, fecha, id_usuario, tipo_documento, nombre, apellido, celular, correo_elec, foto, fecha_nac, contrasena, foto_carnet, cuenta_activada) VALUES ("Modificación", now(), NEW.id_usuario, NEW.tipo_documento, NEW.nombre, NEW.apellido, NEW.celular, NEW.correo_elec, NEW.foto, NEW.fecha_nac, NEW.contrasena, NEW.foto_carnet, NEW.cuenta_activada);
     END$$
 
 USE `GoUdb`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `GoUdb`.`usuarios_BEFORE_DELETE` BEFORE DELETE ON `usuarios` FOR EACH ROW
     BEGIN 
-    INSERT INTO `log_usuarios` (tipo_registro, fecha, id_usuario, tipo_documento, nombre, apellido, celular, correo_elec, foto, fecha_nac, contrasena, foto_carnet) VALUES ("Eliminación", now(), OLD.id_usuario, OLD.tipo_documento, OLD.nombre, OLD.apellido, OLD.celular, OLD.correo_elec, OLD.foto, OLD.fecha_nac, OLD.contrasena, OLD.foto_carnet);
+    INSERT INTO `log_usuarios` (tipo_registro, fecha, id_usuario, tipo_documento, nombre, apellido, celular, correo_elec, foto, fecha_nac, contrasena, foto_carnet, cuenta_activada) VALUES ("Eliminación", now(), OLD.id_usuario, OLD.tipo_documento, OLD.nombre, OLD.apellido, OLD.celular, OLD.correo_elec, OLD.foto, OLD.fecha_nac, OLD.contrasena, OLD.foto_carnet, OLD.cuenta_activada);
     DELETE FROM `roles` WHERE id_usuario = OLD.id_usuario;
     END$$
 
@@ -484,14 +484,14 @@ END
 USE `GoUdb`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `GoUdb`.`conductores_AFTER_UPDATE` AFTER UPDATE ON `conductores` FOR EACH ROW
     BEGIN 
-    INSERT INTO `log_conductores` (tipo_registro, fecha, id_conductor, tipo_documento, codigo_asoc,nombre, apellido, celular, correo_elec, foto, fecha_nac, contrasena, fecha_ven_pase, foto_pase, foto_cedula, codigo_referido, cuenta_activada) VALUES ("Modificación", now(), NEW.id_conductor, NEW.tipo_documento, NEW.codigo_asoc, NEW.nombre, NEW.apellido, NEW.celular, NEW.correo_elec, NEW.foto, NEW.fecha_nac, NEW.contrasena, NEW.fecha_ven_pase, NEW.foto_pase, NEW.foto_cedula, NEW.cod_referido, NEW.cuenta_activada);
+    INSERT INTO `log_conductores` (tipo_registro, fecha, id_conductor, tipo_documento, codigo_asoc,nombre, apellido, celular, correo_elec, foto, fecha_nac, contrasena, fecha_ven_pase, foto_pase, foto_cedula, cod_referido, cuenta_activada) VALUES ("Modificación", now(), NEW.id_conductor, NEW.tipo_documento, NEW.codigo_asoc, NEW.nombre, NEW.apellido, NEW.celular, NEW.correo_elec, NEW.foto, NEW.fecha_nac, NEW.contrasena, NEW.fecha_ven_pase, NEW.foto_pase, NEW.foto_cedula, NEW.cod_referido, NEW.cuenta_activada);
     
     END$$
 
 USE `GoUdb`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `GoUdb`.`conductores_BEFORE_DELETE` BEFORE DELETE ON `conductores` FOR EACH ROW
     BEGIN 
-    INSERT INTO `log_conductores` (tipo_registro, fecha, id_conductor, tipo_documento, codigo_asoc, nombre, apellido, celular, correo_elec, foto, fecha_nac, contrasena, fecha_ven_pase, foto_pase, foto_cedula, codigo_referido, cuenta_activada) VALUES ("Eliminación", now(), OLD.id_conductor, OLD.tipo_documento, OLD.codigo_asoc, OLD.nombre, OLD.apellido, OLD.celular, OLD.correo_elec, OLD.foto, OLD.fecha_nac, OLD.contrasena, OLD.fecha_ven_pase, OLD.foto_pase, OLD.foto_cedula, OLD.cod_referido, OLD.cuenta_activada);
+    INSERT INTO `log_conductores` (tipo_registro, fecha, id_conductor, tipo_documento, codigo_asoc, nombre, apellido, celular, correo_elec, foto, fecha_nac, contrasena, fecha_ven_pase, foto_pase, foto_cedula, cod_referido, cuenta_activada) VALUES ("Eliminación", now(), OLD.id_conductor, OLD.tipo_documento, OLD.codigo_asoc, OLD.nombre, OLD.apellido, OLD.celular, OLD.correo_elec, OLD.foto, OLD.fecha_nac, OLD.contrasena, OLD.fecha_ven_pase, OLD.foto_pase, OLD.foto_cedula, OLD.cod_referido, OLD.cuenta_activada);
     
     END$$
 
